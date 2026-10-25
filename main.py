@@ -1,10 +1,5 @@
 import time
 
-# ==========================================
-# 1. KELAS INPUT & OUTPUT
-# ==========================================
-
-
 class Buku:
   """Kelas Input untuk menyimpan data buku."""
 
@@ -57,10 +52,6 @@ class HasilPencarian:
     print(f"[METRIK] Waktu Eksekusi: {self.waktu_eksekusi:.6f} detik\n")
 
 
-# ==========================================
-# 2. ALGORITMA PENCARIAN
-# ==========================================
-
 
 def linear_search_by_title(daftar_buku: list, keyword: str) -> HasilPencarian:
   """Linear Search berdasarkan Judul Buku tanpa library bawaan."""
@@ -110,10 +101,6 @@ def binary_search_by_isbn(
   return HasilPencarian(status, hasil, jumlah_operasi, waktu_eksekusi)
 
 
-# ==========================================
-# 3. GENERATOR DATA & PROGRAM UTAMA
-# ==========================================
-
 
 def generate_dummy_books(n: int) -> list:
   """Membuat sampel data buku sebanyak n terurut berdasarkan ISBN."""
@@ -133,7 +120,6 @@ def generate_dummy_books(n: int) -> list:
 
 
 if __name__ == "__main__":
-  # Generate 10.000 data buku
   dataset = generate_dummy_books(10000)
 
   print("=== TESTING LINEAR SEARCH (DATA DITEMUKAN) ===")

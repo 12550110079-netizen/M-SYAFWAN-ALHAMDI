@@ -1,5 +1,4 @@
 class SearchResult:
-    """Kelas untuk menyimpan dan memformat objek hasil pencarian/pemetaan DNA."""
     def __init__(self, pattern, latin_name="-", dino_id="-", index="-", score_percentage=0.0, matched_chars=0, pattern_length=0, status="Not Found"):
         self.pattern = pattern
         self.latin_name = latin_name
@@ -24,13 +23,11 @@ class SearchResult:
 
 
 class DNAPaleogenomicsMatcher:
-    """Sistem Pemetaan Sekuens DNA Kuno menggunakan Algoritma KMP dan Merge Sort."""
     def __init__(self, dataset):
         self.dataset = dataset
         self.total_operations = 0
 
     def compute_lps(self, pattern):
-        """Menhitung Longest Prefix Suffix (LPS) Array untuk Algoritma KMP."""
         m = len(pattern)
         lps = [0] * m
         length = 0
@@ -50,14 +47,9 @@ class DNAPaleogenomicsMatcher:
         return lps
 
     def kmp_search_single(self, text, pattern):
-        """
-        Melakukan pencarian KMP pada untai genom dengan toleransi mutasi 
-        maksimal 1 basa nitrogen di ujung paling kanan (n-1).
-        """
         n = len(text)
         m = len(pattern)
         
-        # --- 1. Cek Exact Match (100% Cocok) ---
         lps = self.compute_lps(pattern)
         i = 0  # Indeks untuk text
         j = 0  # Indeks untuk pattern
@@ -76,8 +68,6 @@ class DNAPaleogenomicsMatcher:
                 else:
                     i += 1
 
-        # --- 2. Cek End-Mutation Tolerance (Prefix m-1 cocok, karakter ke-m menoleransi mismatch) ---
-        prefix_pattern = pattern[:-1]
         lps_prefix = self.compute_lps(prefix_pattern)
         i = 0
         j = 0
@@ -91,7 +81,6 @@ class DNAPaleogenomicsMatcher:
 
             if j == sub_m:
                 match_pos = i - j
-                # Pastikan posisi karakter ujung masih berada dalam rentang teks
                 if match_pos + m - 1 < n:
                     score = ((m - 1) / m) * 100.0
                     return (match_pos, score, m - 1, "End-Mutated")
@@ -105,7 +94,6 @@ class DNAPaleogenomicsMatcher:
         return None
 
     def search_pattern(self, pattern):
-        """Memindai seluruh sekuens referensi dalam dataset untuk satu fragmen pola."""
         for dino_id, latin_name, length, dna_seq in self.dataset:
             res = self.kmp_search_single(dna_seq, pattern)
             if res is not None:
@@ -114,7 +102,6 @@ class DNAPaleogenomicsMatcher:
         return SearchResult(pattern, "-", "-", "-", 0.0, 0, len(pattern), "Not Found")
 
     def merge_sort(self, arr):
-        """Pengurutan Merge Sort manual (Divide and Conquer)."""
         if len(arr) <= 1:
             return arr
 
@@ -147,7 +134,6 @@ class DNAPaleogenomicsMatcher:
         return result
 
     def execute_pipeline(self, patterns):
-        """Menjalankan alur pencarian dan pengurutan hasil secara keseluruhan."""
         self.total_operations = 0
         raw_results = []
         for pat in patterns:
@@ -171,18 +157,17 @@ dataset_dino_9 = [
     )
 ]
 
-# Pola Pengujian (Query Patterns)
 test_patterns = [
-    "TTTTTTTTTTTTTTTT",  # Pattern 1: Tidak Ada (Not Found)
-    "CTATTATCAGATGTCG",  # Pattern 2: Exact Match pada Indeks 0 dari Diplodocus carnegii
-    "CTATTATCAGATGTCA"   # Pattern 3: End-Mutated Match (Basa 'G' di ujung berubah menjadi 'A')
+    "TTTTTTTTTTTTTTTT",  
+    "CTATTATCAGATGTCG",  
+    "CTATTATCAGATGTCA"   
 ]
 
-# Eksekusi Pemetaan
+
 matcher = DNAPaleogenomicsMatcher(dataset_dino_9)
 results, total_ops = matcher.execute_pipeline(test_patterns)
 
-# Output Laporan Hasil Pemetaan
+
 print("=== HASIL PEMETAAN FRAGMEN DNA (TERURUT SKOR TERTINGGI) ===")
 for idx, res in enumerate(results, 1):
     print(f"{idx}. Pola: \"{res.pattern}\"")

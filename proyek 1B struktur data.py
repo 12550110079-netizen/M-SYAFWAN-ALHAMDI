@@ -18,9 +18,7 @@ class OrganizationalTree:
     def __init__(self, root_node):
         self.root = root_node
 
-    # ==========================================
-    # 1. Operasi Penyisipan Data (insert_node)
-    # ==========================================
+    
     def insert_node(self, parent_id, id_pegawai, nama, jabatan):
         """Menambahkan pegawai baru di bawah atasan (parent_id) tertentu"""
         parent_node = self.search_node(self.root, parent_id)
@@ -33,9 +31,7 @@ class OrganizationalTree:
             print(f"[GAGAL] Parent dengan ID/Key '{parent_id}' tidak ditemukan!")
             return None
 
-    # ==========================================
-    # 2. Operasi Pencarian Data (search_node)
-    # ==========================================
+    
     def search_node(self, current_node, keyword):
         if current_node is None:
             return None
@@ -52,10 +48,7 @@ class OrganizationalTree:
 
         return None
 
-    # ==========================================
-    # 3. Algoritma Traversal
-    # ==========================================
-
+   
     def preorder_traversal(self, node=None, visited=None):
         if visited is None:
             visited = []
@@ -69,7 +62,7 @@ class OrganizationalTree:
 
         return visited
 
-    # B. INORDER TRAVERSAL (Disesuaikan untuk General Tree: Child Pertama -> Root -> Child Sisanya)
+   
     def inorder_traversal(self, node=None, visited=None):
         if visited is None:
             visited = []
@@ -88,7 +81,6 @@ class OrganizationalTree:
 
         return visited
 
-    # C. POSTORDER TRAVERSAL (Children dari kiri ke kanan -> Root)
     def postorder_traversal(self, node=None, visited=None):
         if visited is None:
             visited = []
@@ -102,9 +94,7 @@ class OrganizationalTree:
 
         return visited
 
-    # ==========================================
-    # Helper: Visualisasi Tree di Terminal
-    # ==========================================
+   
     def display_tree(self, node=None, indent="", is_last=True):
         if node is None:
             node = self.root
@@ -118,9 +108,7 @@ class OrganizationalTree:
             self.display_tree(child, indent, i == child_count - 1)
 
 
-# ==============================================================================
-# DEMO PENGGUNAAN PROGRAM DENGAN DATA UIN SUSKA RIAU
-# ==============================================================================
+
 if __name__ == "__main__":
     print("=== INVENTARISASI STRUKTUR ORGANISASI UIN SUSKA RIAU ===\n")
     
